@@ -1,0 +1,37 @@
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<div id="app">
+<input type="text" v-model='message'>
+<button @click="take_sub">提交</button>
+<ul>
+<todo-item v-for='(item,index) in me_list'
+	:content='item'
+	:index="index"
+	@delete='handleDelete'
+></todo-item></ul>
+</div>
+<script>
+	Vue.component('todo-item',{
+		props:['content','index'],
+		template:'<li @click="handleClick">{{content}}</li>',
+		methods:{
+			handleClick:function(){
+				this.$emit('delete',this.index)
+			}
+		}
+	});
+var vue=new Vue({
+	el:'#app',
+	data:{
+		message:'q',
+		me_list:[]
+	},
+	methods:{
+		take_sub:function(){
+			this.me_list.push(this.message);
+		},
+		handleDelete:function(index){
+			this.me_list.splice(index,1);
+		}
+	}
+})
+</script>
